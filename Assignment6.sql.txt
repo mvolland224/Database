@@ -1,0 +1,50 @@
+/*
+Morgan Volland
+CSC 355 Section 502/511
+Assignment 6
+SubmissionDate, 2021
+*/
+
+
+declare
+Taxs1 TAXES.Tax1%type;
+Taxs2 TAXES.Tax2%type;
+Taxs3 TAXES.Tax3%type;
+emId employee.ID%type;
+nameId employee.name%type;
+theirIncome employee.income%type;
+typeEm employee.type%type;
+theirtax Integer := 0;
+totaltax Integer := 0;
+employeeInfo Employee%rowtype;
+cursor typePtr is Select ID, name, type FROM EMPLOYEE;
+
+begin
+
+	SELECT Tax1, Tax2, Tax3
+	INTO Taxs1, Taxs2, Taxs3
+	FROM Taxes;
+    
+    dbms_output.put_line('Rates: ' || Taxs1 || ', ' || Taxs2 || ', ' || Taxs3);
+    
+    for employeeInfo in typePtr
+    loop
+        if typeEm = 1 then
+        theirtax := (theirIncome * Taxs1);
+        dbms_output.put_line(emId || nameId || theirtax);
+       elsif typeEm = 2 then
+       theirtax := (theirIncome * Taxs2);
+       dbms_output.put_line(emId || nameId || theirtax);
+       else 
+        theirtax := (theirIncome * Taxs3);
+       dbms_output.put_line(emId || nameId || theirtax);
+       end if;
+       totaltax := (totaltax +theirtax);
+       end loop;
+       
+       
+   
+    dbms_output.put_line('TotalTaxes: ' || totaltax);
+    
+end;
+/
